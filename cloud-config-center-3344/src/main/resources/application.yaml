@@ -1,0 +1,32 @@
+server:
+  port: 3344
+spring:
+  application:
+    name: cloud-config-center #注册进Eureka服务器的微服务名
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/ManMyCode/cloud2020-config.git #GitHub上的git仓库名称
+          username: 1035113650@qq.com
+          password: dengsp6html
+          #搜索目录
+          search-paths:
+            - cloud2020-config
+      label: master #主分支
+  #rabbitmq相关配置
+  rabbitmq:
+    host: ecs.aliyun.com
+    port: 5672
+    username: dsp
+    password: 123456
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka7001.com:7001/eureka
+# 暴露Bus刷新配置的端点
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "bus-refresh" # 全局广播通知:一次手动刷新(config-server:3344),处处生效(config-client:3355,3366) curl -X POST "http://localhost:3344/actuator/bus-refresh",定点精确通知(config-client:3355)curl -X POST "http://localhost:3344/actuator/bus-refresh/cloud-config-client:3355"
